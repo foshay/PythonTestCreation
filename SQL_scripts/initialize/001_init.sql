@@ -1,0 +1,13 @@
+CREATE DATABASE TestDB;
+GO
+
+USE TestDB;
+GO
+
+CREATE TABLE Employees (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(100),
+    Position NVARCHAR(100),
+    Department NVARCHAR(100)
+);
+GO

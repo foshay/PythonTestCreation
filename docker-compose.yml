@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD}
+    volumes:
+      - ./data:/var/opt/mssql
+      - ./SQL_scripts/initialize:/SQL_scripts/initialize
+    command: /bin/bash -c "sleep 30 && for f in /SQL_scripts/initialize/*.sql; do /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Your_password123 -d master -i \"$f\"; done"
+    networks:
+      - sqlnetwork
+    restart: unless-stopped
+
+networks:
+  sqlnetwork:
+    driver: bridge
